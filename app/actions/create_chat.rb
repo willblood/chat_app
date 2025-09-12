@@ -1,7 +1,7 @@
 class CreateChat
   extend LightService::Action
 
-  expects :create_params, :current_user, :other_user
+  expects :current_user, :other_user
   promises :chat
 
   executed do |ctx|
