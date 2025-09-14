@@ -2,7 +2,10 @@ class MessagesController < ApplicationController
   before_action :user_logged_in?
 
   def create
-    result = CreateMessage.execute(current_user: current_user, params: convert_key_to_sym(valid_params.to_h))
+    result = CreateMessage.execute(
+      current_user: current_user, 
+      params: convert_key_to_sym(valid_params.to_h)
+    )
     if result.success?
       render json: result.message_data, status: :ok
     elsif result.message == "Chat does not exist"
