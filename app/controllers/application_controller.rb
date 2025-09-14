@@ -5,6 +5,16 @@ class ApplicationController < ActionController::Base
   end
 
   def user_logged_in?
-    current_user.present?
-  end 
+    unless current_user.present?
+      render json: { error: "Unauthorized" }, status: :unauthorized
+      return
+    end
+  end
+
+
+  def convert_key_to_sym(params)
+    params.each_with_object({}) do |(key, value), result|
+      result[key.to_sym] = value
+    end
+  end
 end

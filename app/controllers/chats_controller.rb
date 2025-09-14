@@ -1,11 +1,13 @@
 class ChatsController < ApplicationController
   before_action :user_logged_in?
   def index
-    @chats = current_user.chats
+    chats = current_user.chats
+    render json: chats, status: :ok
   end
 
   def show
     @chat = ChatRepository.find(params[:id])
+    render json: chat, status: :ok
   end
 
   def create
@@ -13,15 +15,15 @@ class ChatsController < ApplicationController
     if other_user
       result = CreateChat.execute(current_user: current_user, other_user: other_user)
       if result.success?
-        flash[:success] = "New chat created !"
+        render json: result.chat, status: :ok
       elsif result.message == "Chat already exists between the selected users."
         chat = find_chat(current_user, other_user)
-        redirect_to chat_path(chat.id)
+        render json: chat, status: :ok
       else
-        flash[:errors] = "Failed to create User"
+        render json: {message: result.message}, status: :unprocessable_entity
       end
     end
-    flash[:errors] = "Selected user doesn't exist"
+    render json: {message: "Selected user doesn't exist"}, status: :not_found
   end
 
   private
