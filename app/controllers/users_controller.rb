@@ -13,10 +13,4 @@ class UsersController < ApplicationController
   def valid_params
     params.require(:user).permit(:name, :username, :password, :password_confirmation)
   end
-
-  def convert_key_to_sym(params)
-    params.each_with_object({}) do |(key, value), result|
-      result[key.to_sym] = value
-    end
-  end
 end
