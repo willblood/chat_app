@@ -66,3 +66,4 @@ group :test do
   gem "selenium-webdriver"
 end
 gem 'light-service'
+gem 'jwt', '~> 1.5', '>= 1.5.4'
