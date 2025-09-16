@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   # root "posts#index"
   post "api/users", to: "users#create"
   post "api/authenticate", to:"sessions#login"
+  post "api/chats", to:"chats#create"
 end
