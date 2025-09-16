@@ -1,5 +1,6 @@
 class ChatsController < ApplicationController
-  before_action :user_logged_in?
+  before_action :authenticate_user
+  
   def index
     chats = current_user.chats
     render json: chats, status: :ok

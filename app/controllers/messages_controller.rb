@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :user_logged_in?
+  before_action :authenticate_user
 
   def create
     result = CreateMessage.execute(

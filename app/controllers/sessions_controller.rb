@@ -1,20 +1,13 @@
 class SessionsController < ApplicationController
-  def new
-  end
 
-  def create
+  def login
     user = UserRepository.find_by(username: params[:username])
     if user && user.authenticate(params[:password])
-      session[:user_id] = user.id
+      token = JsonWebToken.encode(user_id: user.id)
+      render json: {token: token}, status: :ok
     else
-      flash[:error] = "invalid credentials"
-      redirect to sessions_path
+      render json: { error: 'Invalid credentials'}, status: :unauthorized
     end
-  end
-
-  def destroy
-    session[:user_id] = nil
-    redirect to sessions_path
   end
 
 end

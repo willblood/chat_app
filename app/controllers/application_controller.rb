@@ -4,10 +4,16 @@ class ApplicationController < ActionController::API
     current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 
-  def user_logged_in?
-    unless current_user.present?
-      render json: { error: "Unauthorized" }, status: :unauthorized
-      return
+  def authenticate_user
+    header = request.headers['Authorization']
+    header = header.split(' ').last if header
+    begin
+      @decoded = JsonWebToken.decode(header)
+      @current_user = UserRepository.find(@decoded[:user_id])
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { errors: e.message}, status: :unauthorized
+    rescue ExceptionHandler::InvalidToken => e
+      render json: {errors: e.message}, status: :unauthorized
     end
   end
 
