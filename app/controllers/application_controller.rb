@@ -1,8 +1,5 @@
 class ApplicationController < ActionController::API
-  helper_method :current_user
-  def current_user
-    current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
+  attr_reader :current_user
 
   def authenticate_user
     header = request.headers['Authorization']
@@ -12,8 +9,6 @@ class ApplicationController < ActionController::API
       @current_user = UserRepository.find(@decoded[:user_id])
     rescue ActiveRecord::RecordNotFound => e
       render json: { errors: e.message}, status: :unauthorized
-    rescue ExceptionHandler::InvalidToken => e
-      render json: {errors: e.message}, status: :unauthorized
     end
   end
 

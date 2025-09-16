@@ -9,8 +9,8 @@ class CreateChat
     return if existing_chat?(ctx.current_user, ctx.other_user, ctx)
     ctx.chat = ChatRepository.create(
       {name: generate_chat_name(ctx.current_user, ctx.other_user)},
-      current_user,
-      other_user
+      ctx.current_user,
+      ctx.other_user
     )
 
   rescue ActiveRecord::RecordInvalid => e
