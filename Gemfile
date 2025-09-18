@@ -67,3 +67,4 @@ group :test do
 end
 gem 'light-service'
 gem 'jwt', '~> 1.5', '>= 1.5.4'
+gem 'rack-cors'
