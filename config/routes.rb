@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   post "api/users", to: "users#create"
   post "api/authenticate", to:"sessions#login"
   post "api/chats", to:"chats#create"
+  post "api/search/users", to:"users#search"
 end
