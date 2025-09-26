@@ -20,7 +20,7 @@ class ChatsController < ApplicationController
       render json: result.chat, status: :ok
     elsif result.message == "Chat already exists between the selected users."
       chat = find_chat(current_user, other_user)
-      render json: chat, status: :ok
+      render json: {chat: chat, messages: chat.messages}, status: :ok
     else
       render json: { message: result.message }, status: :unprocessable_entity
     end
