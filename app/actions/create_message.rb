@@ -7,7 +7,6 @@ class CreateMessage
   executed do |ctx|
     return unless valid_params?(ctx.params, ctx)
     return unless valid_chat?(ctx.params, ctx)
-
     ctx.message_data = MessageRepository.create(ctx.params)
   rescue  ActiveRecord::RecordInvalid => e 
     ctx.fail_and_return!("Failed to create message: #{e.message}")

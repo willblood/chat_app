@@ -11,6 +11,15 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Allow WebSocket requests from these origins
+  config.action_cable.allowed_request_origins = [
+    'http://localhost:3000',   # your Nuxt frontend
+    'http://localhost:3001'
+  ]
+
+  # If you want to use Redis
+  config.action_cable.url = "ws://localhost:3000/cable"
+
   # Show full error reports.
   config.consider_all_requests_local = true
 
