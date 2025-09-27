@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   post "api/chats", to:"chats#create"
   post "api/search/users", to:"users#search"
   post "api/messages", to:"messages#create"
+  get "api/chats/all", to:"chats#index"
 end

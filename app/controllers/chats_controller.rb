@@ -3,7 +3,17 @@ class ChatsController < ApplicationController
 
   def index
     chats = current_user.chats
-    render json: chats, status: :ok
+    user_chats = []
+    if chats.any?
+      chats.each do |c|
+        chat_user =  c.chat_users.where.not(user_id: current_user.id).first
+        next unless chat_user
+        last_message = c.messages.last
+        user_chats << {chat_id: c.id, user_name: chat_user.user.name, user_id: chat_user.user_id, last_message: last_message&.content}
+      end
+    end
+    p user_chats.inspect
+    render json: user_chats, status: :ok
   end
 
   def show
