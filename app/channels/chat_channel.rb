@@ -1,6 +1,7 @@
 class ChatChannel < ApplicationCable::Channel
   def subscribed
-    room_id = Chat.find(params[:chat_id]).name
+    # Use the chat_id sent from the front-end when subscribing
+    room_id = params[:room]  # expects front-end to send { room: "room_name" }
     stream_for room_id
   end
 
@@ -9,10 +10,14 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    room_id = Chat.find(params[:chat_id]).name
-    ActionCable.server.broadcast_to(rom_id,
-      user: current_user.username
-      {message: data['message']},
-    )
+    room_id = data['room']   # use room name sent from front-end
+    message = data['message']
+
+    # Broadcast to the room
+    ChatChannel.broadcast_to(room_id, {
+      user: current_user.username,
+      message: message,
+      created_at: Time.now
+    })
   end
 end
