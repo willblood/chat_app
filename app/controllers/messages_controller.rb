@@ -12,6 +12,7 @@ class MessagesController < ApplicationController
       # Broadcast to the room
       ChatChannel.broadcast_to(room_id, {
         user: current_user.username,
+        user_id:message[:user_id],
         content: message[:content],
         chat_id: message[:chat_id],
         created_at: message[:created_at]
